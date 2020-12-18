@@ -352,14 +352,15 @@ export default {
         },
         //切换播放歌曲
         setSongUrl(url,name) {
-            console.log(this.toggle)
+            
             this.$store.commit('setUrl',this.$store.state.HOST + url);
             if(this.isPlay){
-                this.toggle = name+name;
                 this.$store.commit('setIsPlay',false);
+                this.toggle = name+name;
             }else{
-                this.toggle = name;
+                
                 this.$store.commit('setIsPlay',true);
+                this.toggle = name;
             }
         }
     }   

@@ -4,6 +4,7 @@
             <i class="el-icon-tickets"></i>歌单歌曲信息
         </div>
         <div class="container">
+            <el-button class="backbtu" type="primary" size="mini" @click="back">返回</el-button>
             <div class="handle-box">
                 <el-button type="primary" size="mini" @click="delAll">批量删除</el-button>
                 <el-input v-model="select_word" size="mini" placeholder="请输入歌曲名" class="handle-input"></el-input>
@@ -34,7 +35,7 @@
             </span>
         </el-dialog>
         <el-dialog title="删除歌曲" :visible.sync="delVisible" width="300px" center>
-            <div align="center">删除不可恢复，是否确定删除？</div>
+            <div style="align:center" >删除不可恢复，是否确定删除？</div>
             <span slot="footer">
                 <el-button size="mini" @click="delVisible = false">取消</el-button>
                 <el-button size="mini" @click="deleteRow">确定</el-button>                
@@ -85,6 +86,18 @@ export default {
         this.getData();
     },
     methods:{
+
+        back() {
+            // 跳转上一级
+            // 这个判断用来解决这种情况，当用户没有上一条路由的历史记录，出现点击返回按钮没有反应时，下面的代码用来判断有没有上一条路由的历史记录   如果没有则返回首页
+            if (window.history.length <= 1) {
+                this.$router.push({ path: "/" });
+                return false;
+            } else {
+                this.$router.go(-1);
+            }
+        },
+
         //查询所有歌手
         getData(){
             this.tempData = [];
@@ -99,8 +112,8 @@ export default {
         getSong(id){
             songOfSongId(id)
             .then(res => {
-                this.tempData.push(res);
-                this.tableData.push(res);
+                this.tempData.push(res[0]);
+                this.tableData.push(res[0]);
             })
             .catch(err => {
                 console.log(err);
@@ -110,11 +123,15 @@ export default {
         getSongId(){
             let _this = this;
             var songOfName = _this.registerForm.singerName+"-"+_this.registerForm.songName;
-            songOfSongName(songOfName).then(
-                res => {
-                    _this.addSong(res[0].id)
+            songOfSongName(songOfName)
+            .then(res => {
+                if(res.code == 1){
+                    _this.addSong(res.obj[0].id);
+                }else{
+                    _this.notify(res.msg,"error");
                 }
-            )
+            })
+
         },
         //添加歌曲
         addSong(songId){
@@ -195,5 +212,10 @@ export default {
         color: white;
         fill: currentColor;
         overflow: hidden;
+    }
+    .backbtu{
+        background-color: white;
+        margin-bottom: 7px;
+        color: rgba(26, 88, 223, 0.959);
     }
 </style>

@@ -35,7 +35,7 @@ export default {
         },
         //播放完成之后触发
         ended(){
-           this.isPlay = false
+           this.isPlay = false;
         },
         //开始、暂停
         togglePlay() {

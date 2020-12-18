@@ -259,7 +259,7 @@ export default {
                             this.getData();
                             this.notify("添加成功","success");
                         }else{
-                            this.notify("添加失败","error");
+                            this.notify(res.msg,"error");
                         }
                     })
                     .catch(err => {

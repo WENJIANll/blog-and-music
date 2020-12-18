@@ -23,7 +23,7 @@
             <el-table-column prop="title" label="标题" width="120" align="center"></el-table-column>     
             <el-table-column label="简介">
                 <template slot-scope="scope">
-                    <p style="height:100px;overflow:scroll">{{scope.row.introduction}}</p>
+                    <p style="height:100px;overflow:hidden">{{scope.row.introduction}}</p>
                 </template>
             </el-table-column>
             <el-table-column prop="style" label="风格" width="120" align="center"></el-table-column> 

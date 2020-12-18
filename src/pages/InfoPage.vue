@@ -1,6 +1,6 @@
 <template>
     <div>
-        <el-row :gutter="20" class="mgb20">
+        <el-row :gutter="30" class="mgb30">
             <el-col :span="6">
                 <el-card>
                     <div class="grid-content">
@@ -45,13 +45,13 @@
         <el-row :gutter="20" class="mgb20">
             <el-col :span="12">
                 <h3 class="mgb20">用户性别比例</h3>
-                <div style="background-color:white">
+                <div style="background-color:white;border-radius: 16px;">
                     <ve-pie :data="consumerSex" :theme="options"></ve-pie>
                 </div>
             </el-col>
             <el-col :span="12">
                 <h3 class="mgb20">歌曲类型分布</h3>
-                <div style="background-color:white">
+                <div style="background-color:white;border-radius: 16px;">
                     <ve-histogram :data="songStyle"></ve-histogram>
                 </div>
             </el-col>
@@ -59,13 +59,13 @@
         <el-row :gutter="20" class="mgb20">
             <el-col :span="12">
                 <h3 class="mgb20">歌手性别比例</h3>
-                <div style="background-color:white">
+                <div style="background-color:white;border-radius: 16px;">
                     <ve-pie :data="singerSex"></ve-pie>
                 </div>
             </el-col>
             <el-col :span="12">
                 <h3 class="mgb20">歌手国籍分布</h3>
-                <div style="background-color:white">
+                <div style="background-color:white;border-radius: 16px;">
                     <ve-histogram :data="country" :theme="options1"></ve-histogram>
                 </div>
             </el-col>
@@ -160,6 +160,7 @@ export default {
         },
         getSong() {                      //歌曲总数
             allSong().then(res => {
+                console.log(res);
                 this.songCount = res.length;
             })
         },

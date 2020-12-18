@@ -71,7 +71,11 @@ a {
 }
 
 .mgb20 {
-  margin-bottom: 20px;
+  padding: 10px;
+}
+
+.mgb30 {
+  padding: 30px;
 }
 
 .move-enter-active,
