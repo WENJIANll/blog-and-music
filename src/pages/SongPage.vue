@@ -4,6 +4,7 @@
             <i class="el-icon-tickets"></i>歌曲信息
         </div>
         <div class="container">
+            <el-button class="backbtu" type="primary" size="mini" @click="back">返回</el-button>
             <div class="handle-box">
                 <el-button type="primary" size="mini" @click="delAll">批量删除</el-button>
                 <el-input v-model="select_word" size="mini" placeholder="请输入歌曲名" class="handle-input"></el-input>
@@ -36,7 +37,7 @@
             <el-table-column label="歌词" align="center">
                 <template slot-scope="scope">
                     <ul style="height:100px;overflow:scroll;">
-                        <li v-for="(item,index) in parseLyric(scope.row.lyric)" :key="index">
+                        <li v-for="(item,index) in parseLyric(scope.row.lyric)" :key="index" >
                             {{item}}
                         </li>
                     </ul>
@@ -108,8 +109,8 @@
                 <el-form-item prop="introduction" label="专辑" size="mini">
                     <el-input v-model="form.introduction" placeholder="专辑"></el-input>
                 </el-form-item> 
-                <el-form-item prop="lyric" label="歌词" size="mini">
-                    <el-input v-model="form.lyric" placeholder="歌词" type="textarea"></el-input>
+                <el-form-item prop="lyric" label="歌词" size="mini" style="overflow:hidden">
+                    <el-input v-model="form.lyric" placeholder="歌词" type="textarea" style="overflow:hidden"></el-input>
                 </el-form-item> 
                 
             </el-form>
@@ -199,11 +200,22 @@ export default {
         this.$store.commit('setIsPlay',false);
     },
     methods:{
+        //
+        back() {
+            // 跳转上一级
+            // 这个判断用来解决这种情况，当用户没有上一条路由的历史记录，出现点击返回按钮没有反应时，下面的代码用来判断有没有上一条路由的历史记录   如果没有则返回首页
+            if (window.history.length <= 1) {
+                this.$router.push({ path: "/" });
+                return false;
+            } else {
+                this.$router.go(-1);
+            }
+        },
         //获取当前页
         handleCurrentChange(val){
             this.currentPage = val;
         },
-        //查询所有歌手
+        //查询所有歌曲
         getData(){
             this.tempData = [];
             this.tableData = [];
@@ -213,7 +225,7 @@ export default {
                 this.currentPage = 1;
             })
         },
-        //添加歌手
+        //添加歌曲
         addSong(){
             let _this = this;
             var form = new FormData(document.getElementById('tf'));
@@ -223,6 +235,7 @@ export default {
                 form.set('lyric','[00:00:00]暂无歌词');
             }
             var req = new XMLHttpRequest();
+            // 定义状态事件
             req.onreadystatechange = function(){
                 //req.readyState == 4 获取到返回的完整数据
                 //req.status == 200 和后台正常交互完成
@@ -233,10 +246,11 @@ export default {
                         _this.registerForm = {};
                         _this.notify(res.msg,'success');
                     }else{
-                         _this.notify('保存失败','error');
+                        _this.notify('保存失败','error');
                     }
                 }
             }
+            // false是异步
             req.open('post',`${_this.$store.state.HOST}/song/add`,false);
             req.send(form);
             _this.centerDialogVisible = false;
@@ -338,11 +352,13 @@ export default {
         },
         //切换播放歌曲
         setSongUrl(url,name) {
-            this.toggle = name;
+            console.log(this.toggle)
             this.$store.commit('setUrl',this.$store.state.HOST + url);
             if(this.isPlay){
+                this.toggle = name+name;
                 this.$store.commit('setIsPlay',false);
             }else{
+                this.toggle = name;
                 this.$store.commit('setIsPlay',true);
             }
         }
@@ -388,5 +404,10 @@ export default {
         color: white;
         fill: currentColor;
         overflow: hidden;
+    }
+    .backbtu{
+        background-color: white;
+        margin-bottom: 7px;
+        color: rgba(26, 88, 223, 0.959);
     }
 </style>
