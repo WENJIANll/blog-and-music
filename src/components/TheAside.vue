@@ -49,6 +49,16 @@ export default {
                     index: 'SongList',
                     title: '歌单管理'
                 },
+                {
+                    icon: 'el-icon-document',
+                    index: 'Blogs',
+                    title: '博客管理'
+                },
+                {
+                    icon: 'el-icon-document',
+                    index: 'Blogtypes',
+                    title: '博客类型管理'
+                },
                 
             ]
         }

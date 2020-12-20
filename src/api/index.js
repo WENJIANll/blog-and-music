@@ -70,3 +70,11 @@ export const getCommentOfSongListId = (songListId) => get(`/comment/commentOfSon
 //删除评论
 export const deleteComment = (id) => get(`comment/delete?id=${id}`);
 
+//===============博客类型===================
+//添加博客类型
+export const setBlogType = (params) => post(`blogsType/add`,params);
+export const getBlogType = () => get(`blogsType/selectall`);
+
+
+
+
